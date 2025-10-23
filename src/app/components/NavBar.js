@@ -5,7 +5,11 @@ function NavBar() {
   return (
     <header>
       <nav>
-          <img src="/logo.svg" alt="Logo App"/>
+          <img 
+            src="/logo.svg" 
+            alt="Logo App"
+            className="w-32 h-auto" 
+          />         
           <ul>
               {
                 navLink.map(({label}) => (

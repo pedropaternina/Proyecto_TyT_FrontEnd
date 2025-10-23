@@ -1,12 +1,14 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
+ import ErrorAlert from './alerts/Error.js'
 
 function Login_form({ mensaje_inicio, register=false, path  }) {
   const [correo, setCorreo] = useState('')
   const [password, setPassword] = useState('')
   const [nombres, setNombres] = useState('')
   const [apellidos, setApellidos] = useState('')
+  const [error, setError] = useState(false)
   
   const router = useRouter()
 
@@ -32,9 +34,11 @@ function Login_form({ mensaje_inicio, register=false, path  }) {
 
   if(!res.ok){
     console.log("Error en el login: ", data.error || data)
+    setError(true)
     return
   }
-
+    setError(false)
+    localStorage.setItem('session', data.access_token)
     router.push('/Pruebas')
 
   }
@@ -110,12 +114,14 @@ function Login_form({ mensaje_inicio, register=false, path  }) {
                 Iniciar Sesión
             </button>}
             
+            {error ? <ErrorAlert titulo={"Vaya"} error={"Las crendenciales son incorrectas"}></ErrorAlert> : ""}
             
           </form>
           <div className='flex flex-col'>
-            {register ? 
-            <p><a href='/'>Inicia Sesión Aquí</a></p> :
-            <p><a href='/'>Registrate  Aquí</a></p>}
+            {register ? (
+            
+            <p><a href='/Login'>Inicia Sesión Aquí</a></p> ) :
+            <p><a href='/Register'>Registrate  Aquí</a></p>}
             
           </div>
         </div>
